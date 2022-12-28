@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @AllArgsConstructor
-class ScheduleService implements AddPolicyUseCase, GenerateDeviceWorkScheduleUseCase, CreateDeviceUseCase, CheckPolicyVisibilityStatusUseCase {
+public class ScheduleService implements AddPolicyUseCase, GenerateDeviceWorkScheduleUseCase, CreateDeviceUseCase, CheckPolicyVisibilityStatusUseCase {
     private final DevicePersistenceOutputPort devicePersistenceOutputPort;
     @Override
     public void createDevice(CreateDeviceRequest createDeviceRequest) {
@@ -27,7 +27,7 @@ class ScheduleService implements AddPolicyUseCase, GenerateDeviceWorkScheduleUse
         Policy policy = new Policy(
                 addPolicyRequest.getStartDate(),
                 addPolicyRequest.getEndDate(),
-                addPolicyRequest.getPriority(),
+                addPolicyRequest.getPriority().getPriority(),
                 addPolicyRequest.getMaximumPower()
         );
         Device device = devicePersistenceOutputPort.getDeviceById(addPolicyRequest.getDeviceId())

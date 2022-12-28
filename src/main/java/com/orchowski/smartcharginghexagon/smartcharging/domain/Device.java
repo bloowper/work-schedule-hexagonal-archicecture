@@ -8,7 +8,7 @@ import java.time.Instant;
 import java.util.List;
 
 @Getter
-@Setter(AccessLevel.PACKAGE)
+@Setter()
 public class Device {
     private String id;
     List<Policy> policies;

@@ -1,6 +1,5 @@
 package com.orchowski.smartcharginghexagon.smartcharging.domain;
 
-import com.orchowski.smartcharginghexagon.smartcharging.domain.Policy;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -9,9 +8,10 @@ import java.util.List;
 
 import static com.orchowski.smartcharginghexagon.smartcharging.domain.Priority.HIGH_PRIORITY;
 import static com.orchowski.smartcharginghexagon.smartcharging.domain.Priority.LOW_PRIORITY;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class PolicyTest {
+class PolicyUnitTest {
     private final Instant instant1 = Instant.ofEpochSecond(1000);
     private final Instant instant2 = Instant.ofEpochSecond(2000);
     private final Instant instant3 = Instant.ofEpochSecond(3000);
@@ -22,8 +22,8 @@ class PolicyTest {
     @Test
     void policyShouldBeHidedCompletely() {
         // given
-        Policy policy1 = new Policy(instant1, instant3, LOW_PRIORITY, BigDecimal.valueOf(200.));
-        Policy policy2 = new Policy(instant1, instant3, HIGH_PRIORITY, BigDecimal.valueOf(450.1));
+        Policy policy1 = new Policy(instant1, instant3, LOW_PRIORITY.getPriority(), BigDecimal.valueOf(200.));
+        Policy policy2 = new Policy(instant1, instant3, HIGH_PRIORITY.getPriority(), BigDecimal.valueOf(450.1));
 
         // when
         boolean policy1isHidedCompletelyByPolicy2 = policy1.isHidedCompletelyBy(policy2);
@@ -36,8 +36,8 @@ class PolicyTest {
     @Test
     void policyShouldNotBeHidedCompletely() {
         // given
-        Policy policy1 = new Policy(instant1, instant3, HIGH_PRIORITY, BigDecimal.valueOf(100.));
-        Policy policy2 = new Policy(instant1, instant4, LOW_PRIORITY, BigDecimal.valueOf(100.));
+        Policy policy1 = new Policy(instant1, instant3, HIGH_PRIORITY.getPriority(), BigDecimal.valueOf(100.));
+        Policy policy2 = new Policy(instant1, instant4, LOW_PRIORITY.getPriority(), BigDecimal.valueOf(100.));
 
         // when
         boolean isHidedCompletely = policy1.isHidedCompletelyBy(policy2);
@@ -55,8 +55,8 @@ class PolicyTest {
         * ----1---2------3-----4----- (instant desc)
         *
         *  */
-        Policy policy1 = new Policy(instant1, instant4, HIGH_PRIORITY, BigDecimal.valueOf(100.));
-        Policy policy2 = new Policy(instant2, instant3, LOW_PRIORITY, BigDecimal.valueOf(100.));
+        Policy policy1 = new Policy(instant1, instant4, HIGH_PRIORITY.getPriority(), BigDecimal.valueOf(100.));
+        Policy policy2 = new Policy(instant2, instant3, LOW_PRIORITY.getPriority(), BigDecimal.valueOf(100.));
 
         // when
         boolean hidedCompletelyBy = policy2.isHidedCompletelyBy(List.of(policy1));
@@ -74,8 +74,8 @@ class PolicyTest {
          * ----1---2------3-----4----- (instant desc)
          *
          *  */
-        Policy policy1 = new Policy(instant1, instant4, LOW_PRIORITY, BigDecimal.valueOf(100.));
-        Policy policy2 = new Policy(instant2, instant3, HIGH_PRIORITY, BigDecimal.valueOf(100.));
+        Policy policy1 = new Policy(instant1, instant4, LOW_PRIORITY.getPriority(), BigDecimal.valueOf(100.));
+        Policy policy2 = new Policy(instant2, instant3, HIGH_PRIORITY.getPriority(), BigDecimal.valueOf(100.));
 
         // when
         boolean hidedCompletelyBy = policy2.isHidedCompletelyBy(List.of(policy1));
@@ -95,9 +95,9 @@ class PolicyTest {
          *
          * p3 is hided by sum of p2 and p1
          *  */
-        Policy policy1 = new Policy(instant1, instant4, HIGH_PRIORITY, BigDecimal.valueOf(100.));
-        Policy policy2 = new Policy(instant3, instant6, HIGH_PRIORITY, BigDecimal.valueOf(100.));
-        Policy policy3 = new Policy(instant2, instant5, LOW_PRIORITY, BigDecimal.valueOf(100.));
+        Policy policy1 = new Policy(instant1, instant4, HIGH_PRIORITY.getPriority(), BigDecimal.valueOf(100.));
+        Policy policy2 = new Policy(instant3, instant6, HIGH_PRIORITY.getPriority(), BigDecimal.valueOf(100.));
+        Policy policy3 = new Policy(instant2, instant5, LOW_PRIORITY.getPriority(), BigDecimal.valueOf(100.));
 
 
         // when
