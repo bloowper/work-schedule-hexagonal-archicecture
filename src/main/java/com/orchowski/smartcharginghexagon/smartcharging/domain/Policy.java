@@ -35,7 +35,7 @@ public class Policy {
     }
 
 
-    boolean isHidedCompletelyBy(Policy otherPolicy) {//TODO delete
+    boolean isHidedCompletelyBy(Policy otherPolicy) {//TODO do i need this?
         if (this == otherPolicy) {
             return false;
         }
@@ -45,7 +45,7 @@ public class Policy {
         return isOtherStarsBefore && isOtherEndsAfter && isOtherHaveGreaterPriority;
     }
 
-    boolean isHidedCompletelyBy(List<Policy> otherPolicies) {//TODO delete
+    boolean isHidedCompletelyBy(List<Policy> otherPolicies) {//TODO do i need this?
         for (Policy otherPolicy : otherPolicies) {
             if (isHidedCompletelyBy(otherPolicy)) {
                 return true;

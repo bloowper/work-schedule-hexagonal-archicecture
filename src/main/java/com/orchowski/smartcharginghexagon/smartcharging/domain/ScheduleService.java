@@ -5,13 +5,16 @@ import com.orchowski.smartcharginghexagon.smartcharging.ports.input.AddPolicyUse
 import com.orchowski.smartcharginghexagon.smartcharging.ports.input.CheckPolicyVisibilityStatusUseCase;
 import com.orchowski.smartcharginghexagon.smartcharging.ports.input.CreateDeviceRequest;
 import com.orchowski.smartcharginghexagon.smartcharging.ports.input.CreateDeviceUseCase;
+import com.orchowski.smartcharginghexagon.smartcharging.ports.input.GenerateDeviceWorkScheduleUseCase;
 import com.orchowski.smartcharginghexagon.smartcharging.ports.output.DevicePersistenceOutputPort;
 import lombok.AllArgsConstructor;
 
+import java.time.Instant;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @AllArgsConstructor
-class ScheduleService implements AddPolicyUseCase, CreateDeviceUseCase, CheckPolicyVisibilityStatusUseCase {
+class ScheduleService implements AddPolicyUseCase, GenerateDeviceWorkScheduleUseCase, CreateDeviceUseCase, CheckPolicyVisibilityStatusUseCase {
     private final DevicePersistenceOutputPort devicePersistenceOutputPort;
     @Override
     public void createDevice(CreateDeviceRequest createDeviceRequest) {
@@ -35,9 +38,22 @@ class ScheduleService implements AddPolicyUseCase, CreateDeviceUseCase, CheckPol
     }
 
     @Override
-    public boolean isPolicyVisible(String deviceId, String policyId) {
-        devicePersistenceOutputPort.getDeviceById(deviceId)
+    public WorkSchedule generateWorkSchedule(String deviceId) {
+        return devicePersistenceOutputPort.getDeviceById(deviceId)
                 .orElseThrow(() -> new NoSuchElementException("There is no device with id %s".formatted(deviceId)))
-                .policies;
+                .generateWorkSchedule(Instant.MIN);
     }
+
+    @Override
+    public boolean isPolicyVisible(String deviceId, String policyId) {
+        List<Policy> policies = devicePersistenceOutputPort.getDeviceById(deviceId)
+                .orElseThrow(() -> new NoSuchElementException("There is no device with id %s".formatted(deviceId)))
+                .getPolicies();
+        return policies.stream()
+                .filter(policy -> policy.getUuid().equals(policyId))
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("Device doesnt contain policy with id %s".formatted(policyId)))
+                .isHidedCompletelyBy(policies);
+    }
+
 }
