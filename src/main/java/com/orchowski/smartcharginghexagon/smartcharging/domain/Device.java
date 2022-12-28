@@ -1,10 +1,8 @@
 package com.orchowski.smartcharginghexagon.smartcharging.domain;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
 import java.util.List;
 
 @Getter
@@ -21,7 +19,7 @@ public class Device {
         policies.add(policy);
     }
 
-    WorkSchedule generateWorkSchedule(Instant startOfWorkSchedule) {
+    WorkSchedule generateWorkSchedule() {
         SchedulerCreator schedulerCreator = new SchedulerCreator(policies);
         return schedulerCreator.createWorkSchedule();
     }

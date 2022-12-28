@@ -11,8 +11,11 @@ public class SmartChargingBeanConfiguration {
     private final DeviceEntityRepository deviceEntityRepository;
     private final DeviceMapper deviceMapper;
 
+
     @Bean
-    ScheduleService scheduleService() {
-        return new ScheduleService(deviceEntityRepository);
+    public ScheduleService scheduleService() {
+        DevicePersistenceOutputPortImpl devicePersistenceOutputPort = new DevicePersistenceOutputPortImpl(deviceEntityRepository, deviceMapper);
+        return new ScheduleService(devicePersistenceOutputPort);
     }
+
 }

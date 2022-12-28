@@ -9,12 +9,12 @@ import com.orchowski.smartcharginghexagon.smartcharging.ports.input.GenerateDevi
 import com.orchowski.smartcharginghexagon.smartcharging.ports.output.DevicePersistenceOutputPort;
 import lombok.AllArgsConstructor;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @AllArgsConstructor
 public class ScheduleService implements AddPolicyUseCase, GenerateDeviceWorkScheduleUseCase, CreateDeviceUseCase, CheckPolicyVisibilityStatusUseCase {
+    //TODO provide domain exceptions
     private final DevicePersistenceOutputPort devicePersistenceOutputPort;
     @Override
     public void createDevice(CreateDeviceRequest createDeviceRequest) {
@@ -31,7 +31,7 @@ public class ScheduleService implements AddPolicyUseCase, GenerateDeviceWorkSche
                 addPolicyRequest.getMaximumPower()
         );
         Device device = devicePersistenceOutputPort.getDeviceById(addPolicyRequest.getDeviceId())
-                .orElseThrow(() -> new RuntimeException("Device not exist"));
+                .orElseThrow(() -> new NoSuchElementException("There is no device with id %s".formatted(addPolicyRequest.getDeviceId())));
         device.addNewPolicy(policy);
         devicePersistenceOutputPort.save(device);
         return policy;
@@ -41,7 +41,7 @@ public class ScheduleService implements AddPolicyUseCase, GenerateDeviceWorkSche
     public WorkSchedule generateWorkSchedule(String deviceId) {
         return devicePersistenceOutputPort.getDeviceById(deviceId)
                 .orElseThrow(() -> new NoSuchElementException("There is no device with id %s".formatted(deviceId)))
-                .generateWorkSchedule(Instant.MIN);
+                .generateWorkSchedule();
     }
 
     @Override

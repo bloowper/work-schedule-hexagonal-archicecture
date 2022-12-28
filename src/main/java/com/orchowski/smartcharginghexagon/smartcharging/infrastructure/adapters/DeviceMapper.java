@@ -5,7 +5,7 @@ import com.orchowski.smartcharginghexagon.smartcharging.domain.Policy;
 import org.mapstruct.Mapper;
 
 @Mapper
-interface DeviceMapper {
+public interface DeviceMapper {
 
     DeviceEntity toEntity(Device device);
 

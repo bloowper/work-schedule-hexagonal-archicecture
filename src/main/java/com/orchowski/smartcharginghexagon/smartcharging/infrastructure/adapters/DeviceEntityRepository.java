@@ -1,7 +1,7 @@
 package com.orchowski.smartcharginghexagon.smartcharging.infrastructure.adapters;
 
 
-import com.orchowski.smartcharginghexagon.smartcharging.ports.output.DevicePersistenceOutputPort;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface DeviceEntityRepository extends DevicePersistenceOutputPort {
+interface DeviceEntityRepository extends MongoRepository<DeviceEntity,String> {
 }
