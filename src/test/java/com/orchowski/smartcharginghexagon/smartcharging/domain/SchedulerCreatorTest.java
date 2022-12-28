@@ -95,6 +95,39 @@ class SchedulerCreatorTest {
     }
 
     @Test
+    void shouldCreateValidWorkScheduleFromTouchingPolicies() {
+        // given
+        /*
+         * .<----------->............. policy1 | prio MED   | i2-i2
+         * .............<--------->... policy2 | prio MED   | i3-i4
+         * -1-----------2---------3--- (instants desc)
+         *
+         * -|<----p1--->|<--p2--->|---
+         *
+         *  */
+
+        List<Policy> policies = List.of(
+                new Policy(i1, i2, MEDIUM_PRIORITY, new BigDecimal("250.")),
+                new Policy(i2, i3, MEDIUM_PRIORITY, new BigDecimal("300."))
+        );
+        WorkSchedule validWorkSchedule = new WorkSchedule(
+                i1,
+                i3,
+                List.of(
+                        new WorkShift(i1, i2, new BigDecimal("250.")),
+                        new WorkShift(i2, i3, new BigDecimal("300."))
+                )
+        );
+
+        // when
+        SchedulerCreator schedulerCreator = new SchedulerCreator(policies);
+        WorkSchedule workSchedule = schedulerCreator.createWorkSchedule();
+
+        // then
+        assertEquals(validWorkSchedule, workSchedule);
+    }
+
+    @Test
     void shouldCreateValidWorkScheduleWith3siftsFromTwoOverlyingPolicies() {
         // given
         /*
