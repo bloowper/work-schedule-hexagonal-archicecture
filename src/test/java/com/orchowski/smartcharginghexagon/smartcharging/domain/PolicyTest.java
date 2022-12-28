@@ -1,13 +1,14 @@
-package com.orchowski.smartcharginghexagon.smartcharging;
+package com.orchowski.smartcharginghexagon.smartcharging.domain;
 
+import com.orchowski.smartcharginghexagon.smartcharging.domain.Policy;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 
-import static com.orchowski.smartcharginghexagon.smartcharging.Priority.HIGH_PRIORITY;
-import static com.orchowski.smartcharginghexagon.smartcharging.Priority.LOW_PRIORITY;
+import static com.orchowski.smartcharginghexagon.smartcharging.domain.Priority.HIGH_PRIORITY;
+import static com.orchowski.smartcharginghexagon.smartcharging.domain.Priority.LOW_PRIORITY;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PolicyTest {

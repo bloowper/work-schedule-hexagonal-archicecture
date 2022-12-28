@@ -1,4 +1,4 @@
-package com.orchowski.smartcharginghexagon.smartcharging;
+package com.orchowski.smartcharginghexagon.smartcharging.domain;
 
 import com.orchowski.smartcharginghexagon.commons.NullCheck;
 import lombok.Getter;
@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Getter
 @ToString
-class Policy {
+public class Policy {
     private String uuid;
     private Instant startDate;
     private Instant endDate;
@@ -30,7 +30,7 @@ class Policy {
     }
 
 
-    boolean isHidedCompletelyBy(Policy otherPolicy) {
+    boolean isHidedCompletelyBy(Policy otherPolicy) {//TODO delete
         if (this == otherPolicy) {
             return false;
         }
@@ -40,20 +40,12 @@ class Policy {
         return isOtherStarsBefore && isOtherEndsAfter && isOtherHaveGreaterPriority;
     }
 
-    boolean isHidedCompletelyBy(List<Policy> otherPolicies) {
+    boolean isHidedCompletelyBy(List<Policy> otherPolicies) {//TODO delete
         for (Policy otherPolicy : otherPolicies) {
             if (isHidedCompletelyBy(otherPolicy)) {
                 return true;
             }
         }
-        System.out.println(otherPolicies);
-        List<Policy> sortedPolicies = otherPolicies.stream()
-                .filter(policy -> !(policy==this))
-                .sorted(Comparator.comparing(Policy::getStartDate))
-                .toList();
-        System.out.println(sortedPolicies);
-
-
         return false;
     }
 

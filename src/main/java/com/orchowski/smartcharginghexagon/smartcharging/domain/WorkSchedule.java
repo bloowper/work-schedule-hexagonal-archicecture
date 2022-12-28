@@ -1,4 +1,4 @@
-package com.orchowski.smartcharginghexagon.smartcharging;
+package com.orchowski.smartcharginghexagon.smartcharging.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -12,7 +12,7 @@ import java.util.List;
 @ToString
 @EqualsAndHashCode
 @Getter
-class WorkSchedule {
+public class WorkSchedule {
     private Instant startTimeOfPlan;
     private Instant endTimeOfPlan;
     private final List<WorkShift> workShifts;

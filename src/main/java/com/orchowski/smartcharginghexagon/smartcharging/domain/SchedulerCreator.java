@@ -1,4 +1,4 @@
-package com.orchowski.smartcharginghexagon.smartcharging;
+package com.orchowski.smartcharginghexagon.smartcharging.domain;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +23,10 @@ class SchedulerCreator {
     }
 
     WorkSchedule createWorkSchedule() {
+        /* TODO
+        * NEED to refactor this class
+        * it would be great to rewrite this to state machine(valid design pattern, not only conceptually as now)
+        *  */
         List<Point> points = policies.stream()
                 .flatMap(policy ->
                         List.of(
@@ -38,40 +42,40 @@ class SchedulerCreator {
 
         List<WorkShift> workShifts = new ArrayList<>(points.size() - 1);
 
-        Point shiftStartPoint = null;
-        Point shiftEndPoint = null;
+        Point previousPoint = null;
         WorkShift.WorkShiftBuilder workShiftBuilder = WorkShift.builder();
         for (Point point : points) {
-            if (shiftStartPoint == null) {
-                shiftStartPoint = point;
+            if (previousPoint == null || point.getType().equals(Type.START) && previousPoint.getType().equals(Type.END)) {
+                // Start new Policy without interrupting other policy
                 workShiftBuilder.shiftStartDate(point.getInstant());
                 workShiftBuilder.powerLimit(point.getOriginPolicy().getMaximumPower());
+                previousPoint = point;
                 continue;
             }
-            if (point.getType().equals(Type.END) && (point.getOriginPolicy() == shiftStartPoint.getOriginPolicy())) {
-                workShiftBuilder.shiftEndDate(point.getInstant());
-                workShifts.add(workShiftBuilder.build());
-                shiftStartPoint = null;
-                shiftEndPoint = null;
-                continue;
-            }
-
-            // Current Policy is interluded by other policy with higher
-            if (point.getType().equals(Type.START) && shiftEndPoint != null && point.getPriority() > shiftEndPoint.getPriority()) {
+            if (point.getType().equals(Type.START)  && point.getPriority() > previousPoint.getPriority()) {
+                // Previous Policy is interrupted by other policy with higher priority
                 workShiftBuilder.shiftEndDate(point.getInstant());
                 workShifts.add(workShiftBuilder.build());
                 workShiftBuilder.shiftStartDate(point.getInstant());
                 workShiftBuilder.powerLimit(point.originPolicy.getMaximumPower());
+                previousPoint = point;
+                continue;
             }
-            if (point.getType().equals(Type.END) && point.getPriority() > shiftEndPoint.getPriority()) {
+            if (point.getType().equals(Type.END) && point.getPriority() > previousPoint.getPriority()) {
                 workShiftBuilder.shiftEndDate(point.getInstant());
                 workShifts.add(workShiftBuilder.build());
                 workShiftBuilder.shiftStartDate(point.getInstant());
                 workShiftBuilder.powerLimit(point.originPolicy.getMaximumPower());
+                previousPoint = point;
+                continue;
             }
-
-            shiftEndPoint = shiftStartPoint;
-            shiftStartPoint = null;
+            if (point.getType().equals(Type.END) && (point.getOriginPolicy() == previousPoint.getOriginPolicy())) {
+                // normal end of shift, without interrupt
+                workShiftBuilder.shiftEndDate(point.getInstant());
+                workShifts.add(workShiftBuilder.build());
+                previousPoint = point;
+                continue;
+            }
         }
 
         return new WorkSchedule(

@@ -1,5 +1,9 @@
-package com.orchowski.smartcharginghexagon.smartcharging;
+package com.orchowski.smartcharginghexagon.smartcharging.domain;
 
+import com.orchowski.smartcharginghexagon.smartcharging.domain.Policy;
+import com.orchowski.smartcharginghexagon.smartcharging.domain.SchedulerCreator;
+import com.orchowski.smartcharginghexagon.smartcharging.domain.WorkSchedule;
+import com.orchowski.smartcharginghexagon.smartcharging.domain.WorkShift;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -8,8 +12,8 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 
-import static com.orchowski.smartcharginghexagon.smartcharging.Priority.HIGH_PRIORITY;
-import static com.orchowski.smartcharginghexagon.smartcharging.Priority.MEDIUM_PRIORITY;
+import static com.orchowski.smartcharginghexagon.smartcharging.domain.Priority.HIGH_PRIORITY;
+import static com.orchowski.smartcharginghexagon.smartcharging.domain.Priority.MEDIUM_PRIORITY;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SchedulerCreatorTest {
@@ -47,7 +51,6 @@ class SchedulerCreatorTest {
         WorkSchedule workSchedule = schedulerCreator.createWorkSchedule();
 
         // then
-        System.out.println(workSchedule);
         assertEquals(validWorkSchedule, workSchedule);
     }
 
@@ -88,9 +91,7 @@ class SchedulerCreatorTest {
         WorkSchedule workSchedule = schedulerCreator.createWorkSchedule();
 
         // then
-        assertEquals(validWorkSchedule.getStartTimeOfPlan(), workSchedule.getStartTimeOfPlan());
-        assertEquals(validWorkSchedule.getEndTimeOfPlan(), workSchedule.getEndTimeOfPlan());
-        assertEquals(validWorkSchedule.getWorkShifts(), workSchedule.getWorkShifts());
+        assertEquals(validWorkSchedule, workSchedule);
     }
 
     @Test
@@ -100,6 +101,8 @@ class SchedulerCreatorTest {
          * ..<------------------->.... policy1 | prio MED    | i2-i2
          * .......<--------->......... policy2 | prio HIGH   | i3-i4
          * --1----2---------3----4---- (instants desc)
+         *
+         * --|<p1>|<---p2-->|<p1>|---   output sum of policies(time)
          *
          *  */
         List<Policy> policies = List.of(
@@ -139,9 +142,9 @@ class SchedulerCreatorTest {
         System.out.println("----\n\n");
 
         // then
+        assertEquals(validWorkSchedule.getWorkShifts(), workSchedule.getWorkShifts());
         assertEquals(validWorkSchedule.getStartTimeOfPlan(), workSchedule.getStartTimeOfPlan());
         assertEquals(validWorkSchedule.getEndTimeOfPlan(), workSchedule.getEndTimeOfPlan());
-        assertEquals(validWorkSchedule.getWorkShifts(), workSchedule.getWorkShifts());
     }
 
     // @Test

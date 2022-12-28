@@ -1,4 +1,4 @@
-package com.orchowski.smartcharginghexagon.smartcharging;
+package com.orchowski.smartcharginghexagon.smartcharging.domain;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -14,7 +14,7 @@ import java.time.Instant;
 @EqualsAndHashCode
 @Getter
 @Builder
-class WorkShift {
+public class WorkShift {
     private final Instant shiftStartDate;
     private final Instant shiftEndDate;
     private final BigDecimal powerLimit;
