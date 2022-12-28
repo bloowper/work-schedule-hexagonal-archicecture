@@ -1,9 +1,5 @@
 package com.orchowski.smartcharginghexagon.smartcharging.domain;
 
-import com.orchowski.smartcharginghexagon.smartcharging.domain.Policy;
-import com.orchowski.smartcharginghexagon.smartcharging.domain.SchedulerCreator;
-import com.orchowski.smartcharginghexagon.smartcharging.domain.WorkSchedule;
-import com.orchowski.smartcharginghexagon.smartcharging.domain.WorkShift;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -162,64 +158,12 @@ class SchedulerCreatorTest {
                 )
         );
 
-        System.out.println("Valid work shifts");
-        validWorkSchedule.getWorkShifts().stream().forEach(System.out::println);
-        System.out.println("----\n\n");
-
         // when
         SchedulerCreator schedulerCreator = new SchedulerCreator(policies);
         WorkSchedule workSchedule = schedulerCreator.createWorkSchedule();
 
-        System.out.println("Work shifts");
-        workSchedule.getWorkShifts().stream().forEach(System.out::println);
-        System.out.println("----\n\n");
-
         // then
-        assertEquals(validWorkSchedule.getWorkShifts(), workSchedule.getWorkShifts());
-        assertEquals(validWorkSchedule.getStartTimeOfPlan(), workSchedule.getStartTimeOfPlan());
-        assertEquals(validWorkSchedule.getEndTimeOfPlan(), workSchedule.getEndTimeOfPlan());
+        assertEquals(validWorkSchedule, workSchedule);
     }
 
-    // @Test
-    // void shouldCreateValidWorkSchedule() {
-    //     // given
-    //     Instant i1 = Instant.ofEpochSecond(1000);
-    //     Instant i2 = Instant.ofEpochSecond(2000);
-    //     Instant i3 = Instant.ofEpochSecond(3000);
-    //     Instant i4 = Instant.ofEpochSecond(4000);
-    //     Instant i5 = Instant.ofEpochSecond(5000);
-    //     Instant i6 = Instant.ofEpochSecond(6000);
-    //
-    //     BigDecimal p1 = new BigDecimal("200");
-    //     BigDecimal p2 = new BigDecimal("300");
-    //     BigDecimal p3 = new BigDecimal("400");
-    //
-    //     List<Policy> policies = List.of(
-    //             new Policy(i1, i3, MEDIUM_PRIORITY, p1),
-    //             new Policy(i2, i5, HIGH_PRIORITY, p2),
-    //             new Policy(i4, i6, MEDIUM_PRIORITY, p3)
-    //     );
-    //
-    //     WorkSchedule walidWorkSchedule = new WorkSchedule(
-    //             i1,
-    //             i6,
-    //             List.of(
-    //                     new WorkShift(i1, i2, p1),
-    //                     new WorkShift(i2, i5, p2),
-    //                     new WorkShift(i5, i6, p3)
-    //             )
-    //     );
-    //
-    //     System.out.println("VALID WORK SHIFT");
-    //     walidWorkSchedule.getWorkShifts().stream().forEach(System.out::println);
-    //     System.out.println("\n\n");
-    //
-    //     // when
-    //     SchedulerCreator schedulerCreator = new SchedulerCreator(policies);
-    //     WorkSchedule workSchedule = schedulerCreator.createWorkSchedule();
-    //
-    //     // then
-    //     System.out.println(workSchedule);
-    //     assertEquals(walidWorkSchedule, workSchedule);
-    // }
 }
