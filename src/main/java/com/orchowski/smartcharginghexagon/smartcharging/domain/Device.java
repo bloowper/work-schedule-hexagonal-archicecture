@@ -1,8 +1,14 @@
 package com.orchowski.smartcharginghexagon.smartcharging.domain;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.Instant;
 import java.util.List;
 
+@Getter
+@Setter(AccessLevel.PACKAGE)
 public class Device {
     private String id;
     List<Policy> policies;

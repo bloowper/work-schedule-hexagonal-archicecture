@@ -1,7 +1,10 @@
 package com.orchowski.smartcharginghexagon.smartcharging.domain;
 
 import com.orchowski.smartcharginghexagon.commons.NullCheck;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.math.BigDecimal;
@@ -12,7 +15,9 @@ import java.util.UUID;
 
 
 @Getter
+@Setter(AccessLevel.PACKAGE)
 @ToString
+@EqualsAndHashCode
 public class Policy {
     private String uuid;
     private Instant startDate;
