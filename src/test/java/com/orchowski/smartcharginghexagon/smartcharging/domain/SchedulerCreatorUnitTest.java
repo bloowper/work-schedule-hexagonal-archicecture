@@ -126,7 +126,6 @@ class SchedulerCreatorUnitTest {
     }
 
     @Test
-    @Disabled // Not working at this moment :(
     void shouldCreateValidWorkScheduleWith3siftsFromTwoOverlyingPolicies() {
         // given
         /*

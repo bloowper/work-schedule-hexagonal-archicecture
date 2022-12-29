@@ -2,7 +2,6 @@ package com.orchowski.smartcharginghexagon.smartcharging.domain;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.threeten.extra.Interval;
 
 import java.time.Instant;
 import java.util.List;
@@ -37,10 +36,12 @@ public class Device {
                 .ifPresent(p -> {throw new IllegalArgumentException("Two policies with the same priority must not overlap");});
     }
 
+    /**
+     * external points are excluded
+     */
     private List<Policy> getPoliciesInRange(Instant startDate, Instant endDate) {
-        Interval interval = Interval.of(startDate, endDate);
         return policies.stream()
-                .filter(policy -> interval.contains(policy.getEndDate()) || interval.contains(policy.getStartDate())) //One side is excluded!
+                .filter(policy -> policy.getStartDate().compareTo(endDate) > 0 || policy.getEndDate().compareTo(startDate) > 0)
                 .toList();
     }
 }

@@ -1,6 +1,6 @@
 package com.orchowski.smartcharginghexagon.smartcharging.infrastructure.adapters;
 
-import com.orchowski.smartcharginghexagon.smartcharging.domain.ScheduleService;
+import com.orchowski.smartcharginghexagon.smartcharging.domain.WorkScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,9 +13,9 @@ public class SmartChargingBeanConfiguration {
 
 
     @Bean
-    public ScheduleService scheduleService() {
+    public WorkScheduleService scheduleService() {
         DevicePersistenceOutputPortImpl devicePersistenceOutputPort = new DevicePersistenceOutputPortImpl(deviceEntityRepository, deviceMapper);
-        return new ScheduleService(devicePersistenceOutputPort);
+        return new WorkScheduleService(devicePersistenceOutputPort);
     }
 
 }
