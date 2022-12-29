@@ -20,6 +20,7 @@ repositories {
 
 ext{
     mapstructVersion = '1.5.3.Final'
+    threetenExtraVersion = '1.7.2'
 }
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -27,6 +28,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
     implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+    implementation "org.threeten:threeten-extra:${threetenExtraVersion}"
 
     compileOnly 'org.projectlombok:lombok'
 
@@ -39,7 +41,6 @@ dependencies {
 compileJava{
     options.compilerArgs +=[
             '-Amapstruct.suppressGeneratorTimestamp=true',
-            '-Amapstruct.verbose=true',
             '-Amapstruct.defaultComponentModel=spring',
     ]
 }

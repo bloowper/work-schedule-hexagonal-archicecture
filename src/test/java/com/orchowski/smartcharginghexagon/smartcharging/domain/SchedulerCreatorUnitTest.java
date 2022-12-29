@@ -14,6 +14,7 @@ import static com.orchowski.smartcharginghexagon.smartcharging.domain.Priority.M
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SchedulerCreatorUnitTest {
+    //TODO [question] this was created with TDD approach, current this is test is "duplicated" in SmartChargingBehavioralTest is it ok?
     private Instant i1 = LocalDateTime.of(2000, 1, 1, 0, 0).toInstant(ZoneOffset.UTC);
     private Instant i2 = LocalDateTime.of(2000, 1, 2, 0, 0).toInstant(ZoneOffset.UTC);
     private Instant i3 = LocalDateTime.of(2000, 1, 3, 0, 0).toInstant(ZoneOffset.UTC);
