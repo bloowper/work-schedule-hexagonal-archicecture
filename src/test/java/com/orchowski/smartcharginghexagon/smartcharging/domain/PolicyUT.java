@@ -12,7 +12,7 @@ import static com.orchowski.smartcharginghexagon.smartcharging.domain.Priority.L
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class PolicyUnitTest {
+class PolicyUT {
     private final Instant instant1 = Instant.ofEpochSecond(1000);
     private final Instant instant2 = Instant.ofEpochSecond(2000);
     private final Instant instant3 = Instant.ofEpochSecond(3000);

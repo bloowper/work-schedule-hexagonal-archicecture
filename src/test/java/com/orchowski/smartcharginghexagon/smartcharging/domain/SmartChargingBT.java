@@ -18,7 +18,7 @@ import static com.orchowski.smartcharginghexagon.smartcharging.domain.Priority.M
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class SmartChargingBehavioralTest {
+class SmartChargingBT {
     private static final Instant I_1 = LocalDateTime.of(2000, 1, 1, 0, 0).toInstant(ZoneOffset.UTC);
     private static final Instant I_2 = LocalDateTime.of(2000, 1, 2, 0, 0).toInstant(ZoneOffset.UTC);
     private static final Instant I_3 = LocalDateTime.of(2000, 1, 3, 0, 0).toInstant(ZoneOffset.UTC);

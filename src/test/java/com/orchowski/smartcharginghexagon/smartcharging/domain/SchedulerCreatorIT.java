@@ -1,6 +1,5 @@
 package com.orchowski.smartcharginghexagon.smartcharging.domain;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -13,7 +12,7 @@ import static com.orchowski.smartcharginghexagon.smartcharging.domain.Priority.H
 import static com.orchowski.smartcharginghexagon.smartcharging.domain.Priority.MEDIUM_PRIORITY;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class SchedulerCreatorUnitTest {
+class SchedulerCreatorIT {
     //TODO [question] this was created with TDD approach, current this is test is "duplicated" in SmartChargingBehavioralTest is it ok?
     private Instant i1 = LocalDateTime.of(2000, 1, 1, 0, 0).toInstant(ZoneOffset.UTC);
     private Instant i2 = LocalDateTime.of(2000, 1, 2, 0, 0).toInstant(ZoneOffset.UTC);
