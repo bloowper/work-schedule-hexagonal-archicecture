@@ -1,0 +1,14 @@
+version: '3.1'
+
+services:
+  mongodb:
+    image: mongo:6.0.2
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: username
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: workSchedule
+    ports:
+      - "27017:27017"
+
+volumes:
+  mongo_volume:

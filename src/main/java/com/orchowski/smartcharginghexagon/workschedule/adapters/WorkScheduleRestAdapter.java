@@ -26,6 +26,7 @@ import java.util.List;
 @RequestMapping("/api/v1")
 class WorkScheduleRestAdapter {
     // TODO m8by adding AdapterService? [question]
+    // TODO provide better response error codes( currently always 500 is returned)
     private final CreateDeviceUseCase createDeviceUseCase;
     private final AddPolicyUseCase addPolicyUseCase;
     private final GenerateDeviceWorkScheduleUseCase generateDeviceWorkScheduleUseCase;

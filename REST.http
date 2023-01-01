@@ -1,0 +1,38 @@
+###
+# create device resource
+# @no-log
+PUT http://localhost:{{serverPort}}/api/v1/device/{{deviceId}}
+Content-Type: application/json
+
+
+###
+# get devices
+# @no-log
+GET http://localhost:{{serverPort}}/api/v1/device
+Content-Type: application/json
+
+###
+# add policy
+# @no-log
+POST http://localhost:{{serverPort}}/api/v1/device/{{deviceId}}/policy
+Content-Type: application/json
+
+{
+  "startDate": "2022-01-20T08:36:29.720Z",
+  "endDate": "2022-01-21T08:36:29.720Z",
+  "priority": "MEDIUM",
+  "maximumPower": "10000.0"
+}
+
+###
+# get device policies
+# @no-log
+GET http://localhost:{{serverPort}}/api/v1/device/{{deviceId}}/policy
+Content-Type: application/json
+
+
+###
+# get device work schedule
+# @no-log
+GET http://localhost:{{serverPort}}/api/v1/device/{{deviceId}}/work-schedule
+Content-Type: application/json

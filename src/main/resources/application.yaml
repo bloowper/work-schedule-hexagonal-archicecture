@@ -1,8 +1,9 @@
 spring:
   data:
     mongodb:
-      host: ${MONGODB_HOST:host}
-      port: ${MONGODB_PORT:2701}
-      username: ${MONGODB_USERNAME:user}
+      host: ${MONGODB_HOST:localhost}
+      port: ${MONGODB_PORT:27017}
+      username: ${MONGODB_USERNAME:username}
       password: ${MONGODB_PASSWORD:password}
-      database: ${MONGODB_DATABASE_NAME:smart-charging}
+      database: ${MONGODB_DATABASE_NAME:workSchedule}
+      authentication-database: ${MONGODB_AUTHENTICATION_DATABASE:admin}

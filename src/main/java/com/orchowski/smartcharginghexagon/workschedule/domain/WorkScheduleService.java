@@ -6,6 +6,7 @@ import com.orchowski.smartcharginghexagon.workschedule.ports.input.CheckPolicyVi
 import com.orchowski.smartcharginghexagon.workschedule.ports.input.CreateDeviceRequest;
 import com.orchowski.smartcharginghexagon.workschedule.ports.input.CreateDeviceUseCase;
 import com.orchowski.smartcharginghexagon.workschedule.ports.input.GenerateDeviceWorkScheduleUseCase;
+import com.orchowski.smartcharginghexagon.workschedule.ports.input.GetDevicePoliciesUseCase;
 import com.orchowski.smartcharginghexagon.workschedule.ports.input.GetDeviceUseCase;
 import com.orchowski.smartcharginghexagon.workschedule.ports.output.DevicePersistenceOutputPort;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @AllArgsConstructor
-public class WorkScheduleService implements AddPolicyUseCase, GenerateDeviceWorkScheduleUseCase, CreateDeviceUseCase, CheckPolicyVisibilityStatusUseCase, GetDeviceUseCase {
+public class WorkScheduleService implements AddPolicyUseCase, GenerateDeviceWorkScheduleUseCase, CreateDeviceUseCase, CheckPolicyVisibilityStatusUseCase, GetDeviceUseCase, GetDevicePoliciesUseCase {
     //TODO provide domain exceptions
     private final DevicePersistenceOutputPort devicePersistenceOutputPort;
     @Override
@@ -59,6 +60,14 @@ public class WorkScheduleService implements AddPolicyUseCase, GenerateDeviceWork
 
     @Override
     public List<Device> getDevices() {
+        // [QUESTION] how to handle more elegant way crud actions is hexagon?
         return devicePersistenceOutputPort.getAllDevices();
+    }
+
+    @Override
+    public List<Policy> getPoliciesForDevice(String deviceId) {
+        return devicePersistenceOutputPort.getDeviceById(deviceId)
+                .orElseThrow(() -> new NoSuchElementException("There is no device with id %s".formatted(deviceId)))
+                .getPolicies();
     }
 }
