@@ -7,8 +7,9 @@ import com.orchowski.smartcharginghexagon.workschedule.ports.input.AddPolicyUseC
 import com.orchowski.smartcharginghexagon.workschedule.ports.input.CreateDeviceRequest;
 import com.orchowski.smartcharginghexagon.workschedule.ports.input.CreateDeviceUseCase;
 import com.orchowski.smartcharginghexagon.workschedule.ports.input.GenerateDeviceWorkScheduleUseCase;
+import com.orchowski.smartcharginghexagon.workschedule.ports.input.GetDevicePoliciesUseCase;
 import com.orchowski.smartcharginghexagon.workschedule.ports.input.GetDeviceUseCase;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,10 +30,11 @@ class WorkScheduleRestAdapter {
     private final AddPolicyUseCase addPolicyUseCase;
     private final GenerateDeviceWorkScheduleUseCase generateDeviceWorkScheduleUseCase;
     private final GetDeviceUseCase getDeviceUseCase;
+    private final GetDevicePoliciesUseCase getDevicePoliciesUseCase;
     private final DomainMapper domainMapper;
 
     @PutMapping("/device/{id}")
-    void createDevice(@NotNull @PathVariable String id) {
+    void createDevice(@NotBlank @PathVariable String id) {
         createDeviceUseCase.createDevice(new CreateDeviceRequest(id));
     }
 
@@ -45,19 +47,21 @@ class WorkScheduleRestAdapter {
     }
 
     @PostMapping("/device/{deviceId}/policy")
-    PolicyDto createPolicy(@PathVariable String deviceId, @RequestBody PolicyToCreateDto policyToCreateDto) {
+    PolicyDto createPolicy(@NotBlank @PathVariable String deviceId, @RequestBody PolicyToCreateDto policyToCreateDto) {
         AddPolicyRequest addPolicyRequest = domainMapper.toRequest(policyToCreateDto, deviceId);
         Policy policy = addPolicyUseCase.addPolicy(addPolicyRequest);
         return domainMapper.toDto(policy);
     }
 
     @GetMapping("/device/{deviceId}/policy")
-    List<PolicyDto> getPolicies(@PathVariable String deviceId) {
-        return null;
+    List<PolicyDto> getPolicies(@NotBlank @PathVariable String deviceId) {
+        return getDevicePoliciesUseCase.getPoliciesForDevice(deviceId).stream()
+                .map(domainMapper::toDto)
+                .toList();
     }
 
     @GetMapping("/device/{deviceId}/work-schedule")
-    WorkScheduleDto getWorkSchedule(@PathVariable String deviceId) {
+    WorkScheduleDto getWorkSchedule(@NotBlank @PathVariable String deviceId) {
         WorkSchedule workSchedule = generateDeviceWorkScheduleUseCase.generateWorkSchedule(deviceId);
         return domainMapper.toDto(workSchedule);
     }
