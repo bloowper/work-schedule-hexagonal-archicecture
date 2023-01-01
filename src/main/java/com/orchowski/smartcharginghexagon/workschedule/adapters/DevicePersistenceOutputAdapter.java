@@ -4,7 +4,9 @@ import com.orchowski.smartcharginghexagon.workschedule.domain.Device;
 import com.orchowski.smartcharginghexagon.workschedule.ports.output.DevicePersistenceOutputPort;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 class DevicePersistenceOutputAdapter implements DevicePersistenceOutputPort {
@@ -21,5 +23,12 @@ class DevicePersistenceOutputAdapter implements DevicePersistenceOutputPort {
     public Optional<Device> getDeviceById(String id) {
         return deviceEntityRepository.findById(id)
                 .map(entityMapper::fromEntity);
+    }
+
+    @Override
+    public List<Device> getAllDevices() {
+        return deviceEntityRepository.findAll().stream()
+                .map(entityMapper::fromEntity)
+                .collect(Collectors.toList()); //toList() is immutable!
     }
 }

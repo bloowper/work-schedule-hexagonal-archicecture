@@ -1,5 +1,6 @@
 package com.orchowski.smartcharginghexagon.workschedule.adapters;
 
+import com.orchowski.smartcharginghexagon.workschedule.domain.Device;
 import com.orchowski.smartcharginghexagon.workschedule.domain.Policy;
 import com.orchowski.smartcharginghexagon.workschedule.domain.WorkSchedule;
 import com.orchowski.smartcharginghexagon.workschedule.domain.WorkShift;
@@ -15,6 +16,8 @@ interface DomainMapper {//TODO Write tests
     WorkScheduleDto toDto(WorkSchedule workSchedule);
 
     WorkShiftDto toDto(WorkShift workShift);
+
+    DeviceDto toDto(Device device);
 
     default Integer policyToCreatePriorityToValue(PolicyToCreatePriority policyToCreatePriority){
         return policyToCreatePriority.getPriority();

@@ -7,6 +7,7 @@ import com.orchowski.smartcharginghexagon.workschedule.ports.input.AddPolicyUseC
 import com.orchowski.smartcharginghexagon.workschedule.ports.input.CreateDeviceRequest;
 import com.orchowski.smartcharginghexagon.workschedule.ports.input.CreateDeviceUseCase;
 import com.orchowski.smartcharginghexagon.workschedule.ports.input.GenerateDeviceWorkScheduleUseCase;
+import com.orchowski.smartcharginghexagon.workschedule.ports.input.GetDeviceUseCase;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1")
@@ -25,6 +28,7 @@ class WorkScheduleRestAdapter {
     private final CreateDeviceUseCase createDeviceUseCase;
     private final AddPolicyUseCase addPolicyUseCase;
     private final GenerateDeviceWorkScheduleUseCase generateDeviceWorkScheduleUseCase;
+    private final GetDeviceUseCase getDeviceUseCase;
     private final DomainMapper domainMapper;
 
     @PutMapping("/device/{id}")
@@ -32,11 +36,24 @@ class WorkScheduleRestAdapter {
         createDeviceUseCase.createDevice(new CreateDeviceRequest(id));
     }
 
+    @GetMapping("/device")
+    List<DeviceDto> getDevices() {
+        //TODO provide pagination for sake to not returning entire db :)
+        return getDeviceUseCase.getDevices().stream()
+                .map(domainMapper::toDto)
+                .toList();
+    }
+
     @PostMapping("/device/{deviceId}/policy")
     PolicyDto createPolicy(@PathVariable String deviceId, @RequestBody PolicyToCreateDto policyToCreateDto) {
         AddPolicyRequest addPolicyRequest = domainMapper.toRequest(policyToCreateDto, deviceId);
         Policy policy = addPolicyUseCase.addPolicy(addPolicyRequest);
         return domainMapper.toDto(policy);
+    }
+
+    @GetMapping("/device/{deviceId}/policy")
+    List<PolicyDto> getPolicies(@PathVariable String deviceId) {
+        return null;
     }
 
     @GetMapping("/device/{deviceId}/work-schedule")

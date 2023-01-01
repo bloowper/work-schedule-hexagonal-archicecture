@@ -6,6 +6,7 @@ import com.orchowski.smartcharginghexagon.workschedule.ports.input.CheckPolicyVi
 import com.orchowski.smartcharginghexagon.workschedule.ports.input.CreateDeviceRequest;
 import com.orchowski.smartcharginghexagon.workschedule.ports.input.CreateDeviceUseCase;
 import com.orchowski.smartcharginghexagon.workschedule.ports.input.GenerateDeviceWorkScheduleUseCase;
+import com.orchowski.smartcharginghexagon.workschedule.ports.input.GetDeviceUseCase;
 import com.orchowski.smartcharginghexagon.workschedule.ports.output.DevicePersistenceOutputPort;
 import lombok.AllArgsConstructor;
 
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @AllArgsConstructor
-public class WorkScheduleService implements AddPolicyUseCase, GenerateDeviceWorkScheduleUseCase, CreateDeviceUseCase, CheckPolicyVisibilityStatusUseCase {
+public class WorkScheduleService implements AddPolicyUseCase, GenerateDeviceWorkScheduleUseCase, CreateDeviceUseCase, CheckPolicyVisibilityStatusUseCase, GetDeviceUseCase {
     //TODO provide domain exceptions
     private final DevicePersistenceOutputPort devicePersistenceOutputPort;
     @Override
@@ -56,4 +57,8 @@ public class WorkScheduleService implements AddPolicyUseCase, GenerateDeviceWork
                 .isHidedCompletelyBy(policies);
     }
 
+    @Override
+    public List<Device> getDevices() {
+        return devicePersistenceOutputPort.getAllDevices();
+    }
 }
